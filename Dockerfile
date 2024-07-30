@@ -1,3 +1,7 @@
+ENV RUNNER_VERSION=2.292.0
+# ENV RUNNER_NAME=TESTSQL
+# ENV RUNNER_REPO=adventure_db
+# ENV RUNNER_LABELS=windows
 FROM mcr.microsoft.com/windows/servercore:ltsc2022
 
 LABEL org.opencontainers.image.authors Anil Nair
@@ -14,7 +18,7 @@ ARG RUNNER_VERSION=VERSION
 RUN Invoke-WebRequest -Uri 'https://aka.ms/install-powershell.ps1' -OutFile install-powershell.ps1; ./install-powershell.ps1 -AddToPath
 
 # Install GitHub Runner
-RUN Invoke-WebRequest -Uri https://github.com/actions/runner/releases/download/$env:RUNNER_VERSION/actions-runner-win-x64-$env:RUNNER_VERSION.zip -OutFile runner.zip
+RUN Invoke-WebRequest -Uri https://github.com/actions/runner/releases/download/v$env:RUNNER_VERSION/actions-runner-win-x64-$env:RUNNER_VERSION.zip -OutFile runner.zip
 RUN Expand-Archive -Path $pwd/runner.zip -DestinationPath C:/actions-runner
 
 ADD entrypoint.ps1 entrypoint.ps1
