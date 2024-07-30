@@ -1,8 +1,12 @@
 $CONFIG_CMD = "C:\actions-runner\config.cmd"
 $CONFIG_OPTIONS = "--unattended --replace --token $env:RUNNER_TOKEN"
-
+ENV RUNNER_ORG=anilnair00
+ENV RUNNER_REPO=adventure_db
+ENV RUNNER_NAME=masterrunner
+ENV RUNNER_LABELS=windows
+ENV RUNNER_TOKEN=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
 if (-not [Environment]::GetEnvironmentVariable('GITHUB_URL')){
-  $GITHUB_URL = "https://github.com/"
+  $GITHUB_URL = "https://github.com/anilnair00/adventure_db"
 }else{
   $GITHUB_URL = [Environment]::GetEnvironmentVariable('GITHUB_URL')
 }
