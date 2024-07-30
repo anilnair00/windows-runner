@@ -1,7 +1,3 @@
-ENV RUNNER_VERSION=2.292.0
-# ENV RUNNER_NAME=TESTSQL
-# ENV RUNNER_REPO=adventure_db
-# ENV RUNNER_LABELS=windows
 FROM mcr.microsoft.com/windows/servercore:ltsc2022
 
 LABEL org.opencontainers.image.authors Anil Nair
@@ -24,3 +20,8 @@ RUN Expand-Archive -Path $pwd/runner.zip -DestinationPath C:/actions-runner
 ADD entrypoint.ps1 entrypoint.ps1
 
 CMD [ "pwsh", ".\\entrypoint.ps1"]
+
+ENV RUNNER_VERSION=2.292.0
+# ENV RUNNER_NAME=TESTSQL
+# ENV RUNNER_REPO=adventure_db
+# ENV RUNNER_LABELS=windows
