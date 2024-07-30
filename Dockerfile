@@ -1,10 +1,10 @@
 FROM mcr.microsoft.com/windows/servercore:ltsc2019
 
-LABEL org.opencontainers.image.authors Anthony Grutta
+LABEL org.opencontainers.image.authors Anil Nair
 LABEL org.opencontainers.image.title Windows Runner Container
 LABEL org.opencontainers.image.description This image is a base image for the GitHub Self-Hosted runner for the Windows platform.
-LABEL org.opencontainers.image.source https://github.com/antgrutta/windows-runner-container
-LABEL org.opencontainers.image.documentation https://github.com/antgrutta/windows-runner-container/README.md
+LABEL org.opencontainers.image.source https://github.com/anilnair00/windows-runner
+LABEL org.opencontainers.image.documentation https://github.com/anilnair00/windows-runner/README.md
 
 SHELL ["powershell", "-Command", "$ErrorActionPreference = 'Stop';$ProgressPreference='silentlyContinue';"]
 
