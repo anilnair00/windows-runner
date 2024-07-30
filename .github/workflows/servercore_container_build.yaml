@@ -30,8 +30,8 @@ jobs:
         # Container registry server url
           login-server: ${{ secrets.ACR_NAME }}
           
-      - name: Azure Container Registry Login
-        run: az acr login --name ${{ secrets.ACR_NAME }}
+      # - name: Azure Container Registry Login
+      #   run: az acr login --name ${{ secrets.ACR_NAME }}
   
       - name: Build Docker image
         run: docker build . -t ${{ secrets.ACR_NAME }}.azurecr.io/${{ secrets.IMAGE_NAME }}:latest --build-arg RUNNER_VERSION=${{env.RUNNER_VERSION}} 
