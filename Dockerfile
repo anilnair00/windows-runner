@@ -14,7 +14,7 @@ ARG RUNNER_VERSION=VERSION
 RUN Invoke-WebRequest -Uri 'https://aka.ms/install-powershell.ps1' -OutFile install-powershell.ps1; ./install-powershell.ps1 -AddToPath
 
 # Install GitHub Runner
-RUN Invoke-WebRequest -Uri https://github.com/actions/runner/releases/download/v$env:RUNNER_VERSION/actions-runner-win-x64-$env:RUNNER_VERSION.zip -OutFile runner.zip
+RUN Invoke-WebRequest -Uri https://github.com/actions/runner/releases/download/v2.292.0/actions-runner-win-x64-2.292.0.zip -OutFile runner.zip
 RUN Expand-Archive -Path $pwd/runner.zip -DestinationPath C:/actions-runner
 
 ADD entrypoint.ps1 entrypoint.ps1
