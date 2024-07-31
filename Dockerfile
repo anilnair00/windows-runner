@@ -20,16 +20,16 @@ RUN Expand-Archive -Path $pwd/runner.zip -DestinationPath C:/actions-runner
 ADD entrypoint.ps1 entrypoint.ps1
 CMD [ "pwsh", ".\\entrypoint.ps1"]
 # Use a base image with Visual Studio Build Tools installed
-FROM mcr.microsoft.com/dotnet/framework/sdk:4.8-windowsservercore-ltsc2022
+# FROM mcr.microsoft.com/dotnet/framework/sdk:4.8-windowsservercore-ltsc2022
 
-# Install Chocolatey
-RUN @powershell -NoProfile -ExecutionPolicy Bypass -Command "iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))"
+# # Install Chocolatey
+# RUN @powershell -NoProfile -ExecutionPolicy Bypass -Command "iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))"
 
-# Install Visual Studio Build Tools and SSDT
-RUN choco install visualstudio2022buildtools --package-parameters "--add Microsoft.VisualStudio.Workload.MSBuildTools --add Microsoft.VisualStudio.Component.SQL.DataTools --includeRecommended --includeOptional" -y
+# # Install Visual Studio Build Tools and SSDT
+# RUN choco install visualstudio2022buildtools --package-parameters "--add Microsoft.VisualStudio.Workload.MSBuildTools --add Microsoft.VisualStudio.Component.SQL.DataTools --includeRecommended --includeOptional" -y
 
-# Set the entry point to PowerShell
-ENTRYPOINT ["powershell.exe", "-NoLogo", "-ExecutionPolicy", "Bypass"]
+# # Set the entry point to PowerShell
+# ENTRYPOINT ["powershell.exe", "-NoLogo", "-ExecutionPolicy", "Bypass"]
 
 
 
