@@ -17,21 +17,16 @@ RUN Invoke-WebRequest -Uri 'https://aka.ms/install-powershell.ps1' -OutFile inst
 RUN Invoke-WebRequest -Uri https://github.com/actions/runner/releases/download/v2.292.0/actions-runner-win-x64-2.292.0.zip -OutFile runner.zip
 RUN Expand-Archive -Path $pwd/runner.zip -DestinationPath C:/actions-runner
 
+# Install MS Build Tools
+
+RUN Invoke-WebRequest -Uri https://aka.ms/vs/17/release/vs_buildtools.exe -OutFile vs_buildtools.exe
+
+## Install Build Tools with the Microsoft.VisualStudio.Workload.AzureBuildTools workload, excluding workloads and components with known issues.
+
+RUN ./vs_buildtools.exe --quiet --wait --norestart --nocache --add Microsoft.VisualStudio.Workload.AzureBuildTools --remove Microsoft.VisualStudio.Component.Windows10SDK.10240 --remove Microsoft.VisualStudio.Component.Windows10SDK.10586 --remove Microsoft.VisualStudio.Component.Windows10SDK.14393 --remove Microsoft.VisualStudio.Component.Windows81SDK
+
 ADD entrypoint.ps1 entrypoint.ps1
 CMD [ "pwsh", ".\\entrypoint.ps1"]
-# Use a base image with Visual Studio Build Tools installed
-# FROM mcr.microsoft.com/dotnet/framework/sdk:4.8-windowsservercore-ltsc2022
-
-# # Install Chocolatey
-# RUN @powershell -NoProfile -ExecutionPolicy Bypass -Command "iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))"
-
-# # Install Visual Studio Build Tools and SSDT
-# RUN choco install visualstudio2022buildtools --package-parameters "--add Microsoft.VisualStudio.Workload.MSBuildTools --add Microsoft.VisualStudio.Component.SQL.DataTools --includeRecommended --includeOptional" -y
-
-# # Set the entry point to PowerShell
-# ENTRYPOINT ["powershell.exe", "-NoLogo", "-ExecutionPolicy", "Bypass"]
-
-
 
 ENV RUNNER_VERSION=2.292.0
 # ENV RUNNER_NAME=TESTSQL
