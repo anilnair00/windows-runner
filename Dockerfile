@@ -12,22 +12,10 @@ ARG RUNNER_VERSION=VERSION
 
 # Install latest PowerShell
 RUN Invoke-WebRequest -Uri 'https://aka.ms/install-powershell.ps1' -OutFile install-powershell.ps1; ./install-powershell.ps1 -AddToPath
-
 # Install GitHub Runner
 RUN Invoke-WebRequest -Uri https://github.com/actions/runner/releases/download/v2.292.0/actions-runner-win-x64-2.292.0.zip -OutFile runner.zip
 RUN Expand-Archive -Path $pwd/runner.zip -DestinationPath C:/actions-runner
-
-
-FROM ghcr.io/antgrutta/winrunner:latest
-
-LABEL org.opencontainers.image.authors Anthony Grutta
-LABEL org.opencontainers.image.title Windows Runner Container
-LABEL org.opencontainers.image.description This image uses the base image for the GitHub Self-Hosted runner for the Windows platform and includes extra tools that can be used in Actions.
-LABEL org.opencontainers.image.source https://github.com/antgrutta/windows-runner-container
-LABEL org.opencontainers.image.documentation https://github.com/antgrutta/windows-runner-container/README.md
-
 SHELL ["powershell", "-Command", "$ErrorActionPreference = 'Stop';$ProgressPreference='silentlyContinue';"]
-
 ADD entrypoint.ps1 entrypoint.ps1
 CMD [ "pwsh", ".\\entrypoint.ps1"]
 
