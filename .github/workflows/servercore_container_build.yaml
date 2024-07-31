@@ -36,7 +36,7 @@ jobs:
       - name: Build and Push Docker image
         run: |
          docker build . -t azurereg001.azurecr.io/testgithub:latest
-         docker push azurereg001.azurecr.io/testgithub:latest
+         docker push azurereg001.azurecr.io/testgithub:latestAug
         
       # - name: Build and Push Docker image
       #   uses: docker/build-push-action@v2
