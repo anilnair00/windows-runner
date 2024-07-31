@@ -18,7 +18,7 @@ RUN Invoke-WebRequest -Uri https://github.com/actions/runner/releases/download/v
 RUN Expand-Archive -Path $pwd/runner.zip -DestinationPath C:/actions-runner
 
 ADD entrypoint.ps1 entrypoint.ps1
-
+CMD [ "pwsh", ".\\entrypoint.ps1"]
 # Use a base image with Visual Studio Build Tools installed
 FROM mcr.microsoft.com/dotnet/framework/sdk:4.8-windowsservercore-ltsc2022
 
@@ -31,7 +31,7 @@ RUN choco install visualstudio2022buildtools --package-parameters "--add Microso
 # Set the entry point to PowerShell
 ENTRYPOINT ["powershell.exe", "-NoLogo", "-ExecutionPolicy", "Bypass"]
 
-CMD [ "pwsh", ".\\entrypoint.ps1"]
+
 
 ENV RUNNER_VERSION=2.292.0
 # ENV RUNNER_NAME=TESTSQL
