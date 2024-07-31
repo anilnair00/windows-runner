@@ -26,8 +26,7 @@ CMD [ "pwsh", ".\\entrypoint.ps1"]
 
 # escape=`
 # Use the latest Windows Server Core 2019 image.
-FROM
-mcr.microsoft.com/windows/servercore:ltsc2022
+FROM mcr.microsoft.com/windows/servercore:ltsc2022
 
 # Restore the default Windows shell for correct batch processing.
 SHELL ["cmd", "/S", "/C"]
