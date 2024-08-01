@@ -49,26 +49,26 @@ ENV ChocolateyUseWindowsCompression=false
 
 # Install Chocolatey
 RUN powershell -NoProfile -ExecutionPolicy Bypass -Command \
-    iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))
+    "Set-ExecutionPolicy Bypass -Scope Process -Force; \
+    [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; \
+    iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))"
+
 
 # Ensure Chocolatey is in PATH
 RUN setx /M PATH "%PATH%;C:\ProgramData\chocolatey\bin"
 
-# Download Visual Studio Build Tools Installer
-RUN powershell -NoProfile -ExecutionPolicy Bypass -Command \
-    Invoke-WebRequest -Uri https://aka.ms/vs/17/release/vs_buildtools.exe -OutFile vs_buildtools.exe
-
 # Install Visual Studio Build Tools with SSDT workload
-RUN powershell -NoProfile -ExecutionPolicy Bypass -Command \
-    Start-Process -Wait -FilePath ./vs_buildtools.exe -ArgumentList '--quiet', '--wait', '--norestart', '--nocache', '--add', 'Microsoft.VisualStudio.Workload.AzureBuildTools', '--add', 'Microsoft.VisualStudio.Component.SQL.DataTools', '--remove', 'Microsoft.VisualStudio.Component.Windows10SDK.10240', '--remove', 'Microsoft.VisualStudio.Component.Windows10SDK.10586', '--remove', 'Microsoft.VisualStudio.Component.Windows10SDK.14393', '--remove', 'Microsoft.VisualStudio.Component.Windows81SDK'
-
-# Cleanup installer
-RUN powershell -NoProfile -ExecutionPolicy Bypass -Command \
-    Remove-Item -Force ./vs_buildtools.exe
+RUN choco install visualstudio2019buildtools --package-parameters "--add Microsoft.VisualStudio.Workload.AzureBuildTools --add Microsoft.VisualStudio.Component.SQL.DataTools --quiet --wait --norestart"
 
 # Download vswhere.exe
 RUN powershell -NoProfile -ExecutionPolicy Bypass -Command \
-    Invoke-WebRequest -Uri https://github.com/microsoft/vswhere/releases/download/2.8.4/vswhere.exe -OutFile C:\vswhere.exe
+    "Invoke-WebRequest -Uri https://github.com/microsoft/vswhere/releases/download/2.8.4/vswhere.exe -OutFile C:\vswhere.exe"
+
+# # Cleanup installer
+# RUN powershell -NoProfile -ExecutionPolicy Bypass -Command \
+#     Remove-Item -Force ./vs_buildtools.exe
+
+
 
 
 
