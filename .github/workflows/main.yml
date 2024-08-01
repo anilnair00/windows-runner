@@ -2,7 +2,7 @@ name: Deploy to Azure SQL Databas
 on:
   push:
     branches:
-       -  master
+       -  main
        -  prod
        -  preprod
   # pull_request:
