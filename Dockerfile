@@ -54,7 +54,7 @@ RUN powershell -NoProfile -ExecutionPolicy Bypass -Command \
     iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))"
 
 # Install Visual Studio Build Tools with SSDT workload
-RUN C:\ProgramData\chocolatey\bin\choco install visualstudio2019buildtools --package-parameters "--add Microsoft.VisualStudio.Workload.AzureBuildTools --add Microsoft.VisualStudio.Component.SQL.DataTools --quiet --wait --norestart"
+RUN C:\ProgramData\chocolatey\bin\choco install visualstudio2019buildtools -y --package-parameters "--add Microsoft.VisualStudio.Workload.AzureBuildTools --add Microsoft.VisualStudio.Component.SQL.DataTools --quiet --wait --norestart"
 
 # Download vswhere.exe
 RUN powershell -NoProfile -ExecutionPolicy Bypass -Command \
