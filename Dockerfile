@@ -12,15 +12,37 @@ ARG RUNNER_VERSION=VERSION
 
 # Install latest PowerShell
 RUN Invoke-WebRequest -Uri 'https://aka.ms/install-powershell.ps1' -OutFile install-powershell.ps1; ./install-powershell.ps1 -AddToPath
+
+####### Install Chocolatey ###############################3
+RUN powershell -NoProfile -ExecutionPolicy Bypass -Command \
+    iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))
+
+# Ensure Chocolatey is in PATH
+RUN setx /M PATH "%PATH%;%ALLUSERSPROFILE%\chocolatey\bin"
+
+# Install Visual Studio Installer
+RUN choco install visualstudio-installer -y
+
+# Install Visual Studio 2022 Build Tools with required components
+RUN powershell -NoProfile -ExecutionPolicy Bypass -Command \
+    Start-Process -Wait -FilePath "C:\ProgramData\chocolatey\lib\visualstudio-installer\tools\vs_installer.exe" -ArgumentList `
+    '--quiet', `
+    '--wait', `
+    '--norestart', `
+    '--nocache', `
+    '--installPath', 'C:\BuildTools', `
+    '--add', 'Microsoft.VisualStudio.Workload.MSBuildTools', `
+    '--add', 'Microsoft.VisualStudio.Component.SQL.DataTools'
+    
 # Install GitHub Runner
 RUN Invoke-WebRequest -Uri https://github.com/actions/runner/releases/download/v2.292.0/actions-runner-win-x64-2.292.0.zip -OutFile runner.zip
 RUN Expand-Archive -Path $pwd/runner.zip -DestinationPath C:/actions-runner
 
-#Install Chocolatey
-RUN Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))
+# #Install Chocolatey
+# RUN Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))
 
-#Install Visual Studio 2022
-RUN choco install visualstudio2019buildtools --package-parameters "--add Microsoft.VisualStudio.Workload.MSBuildTools --add Microsoft.VisualStudio.Component.SQL.DataTools --includeRecommended --includeOptional" -y
+# #Install Visual Studio 2022
+# RUN choco install visualstudio2019buildtools --package-parameters "--add Microsoft.VisualStudio.Workload.MSBuildTools --add Microsoft.VisualStudio.Component.SQL.DataTools --includeRecommended --includeOptional" -y
 
 ADD entrypoint.ps1 entrypoint.ps1
 CMD [ "pwsh", ".\\entrypoint.ps1"]
