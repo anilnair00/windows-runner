@@ -14,8 +14,9 @@ ARG RUNNER_VERSION=VERSION
 RUN Invoke-WebRequest -Uri 'https://aka.ms/install-powershell.ps1' -OutFile install-powershell.ps1; ./install-powershell.ps1 -AddToPath
 
 ####### Install Chocolatey ###############################3
-RUN powershell -NoProfile -ExecutionPolicy Bypass -Command \
-    iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))
+
+RUN Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))
+
 
 # Ensure Chocolatey is in PATH
 RUN setx /M PATH "%PATH%;%ALLUSERSPROFILE%\chocolatey\bin"
