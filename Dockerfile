@@ -19,7 +19,7 @@ RUN Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointMa
 
 
 # Ensure Chocolatey is in PATH
-RUN setx /M PATH "%PATH%;%ALLUSERSPROFILE%\chocolatey\bin"
+RUN setx /M PATH "%PATH%;C:\ProgramData\chocolatey\bin"
 
 # Install Visual Studio Installer
 RUN choco install visualstudio-installer -y
