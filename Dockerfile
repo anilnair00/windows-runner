@@ -62,7 +62,7 @@ RUN powershell -NoProfile -ExecutionPolicy Bypass -Command \
 RUN powershell -NoProfile -ExecutionPolicy Bypass -Command \
     "Invoke-WebRequest -Uri https://github.com/microsoft/vswhere/releases/download/2.8.4/vswhere.exe -OutFile C:\vswhere.exe"
 
-nuget install Microsoft.Data.Tools.Msbuild
+RUN nuget install Microsoft.Data.Tools.Msbuild
 
 # # Cleanup installer
 # RUN powershell -NoProfile -ExecutionPolicy Bypass -Command \
