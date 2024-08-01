@@ -13,29 +13,21 @@ ARG RUNNER_VERSION=VERSION
 # Install latest PowerShell
 RUN Invoke-WebRequest -Uri 'https://aka.ms/install-powershell.ps1' -OutFile install-powershell.ps1; ./install-powershell.ps1 -AddToPath
 
-####### Install Chocolatey ###############################3
-
-RUN Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))
-
-
-# Ensure Chocolatey is in PATH
-RUN setx /M PATH "%PATH%;C:\ProgramData\chocolatey\bin"
-
-# Install Visual Studio Installer
-RUN choco install visualstudio-installer -y
-
-# Install Visual Studio 2022 Build Tools with required components
-RUN powershell -NoProfile -ExecutionPolicy Bypass -Command \
-    $ErrorActionPreference = 'Stop'; \
-    $ProgressPreference = 'SilentlyContinue'; \
-    Start-Process -Wait -FilePath "C:\ProgramData\chocolatey\lib\visualstudio-installer\tools\vs_installer.exe" -ArgumentList '--quiet', '--wait', '--norestart', '--nocache', '--installPath', 'C:\BuildTools', '--add', 'Microsoft.VisualStudio.Workload.MSBuildTools', '--add', 'Microsoft.VisualStudio.Component.SQL.DataTools'
-
-# Verify installation
-RUN "C:\BuildTools\Common7\Tools\VsDevCmd.bat" -command "vswhere -all"
-    
 # Install GitHub Runner
 RUN Invoke-WebRequest -Uri https://github.com/actions/runner/releases/download/v2.292.0/actions-runner-win-x64-2.292.0.zip -OutFile runner.zip
 RUN Expand-Archive -Path $pwd/runner.zip -DestinationPath C:/actions-runner
+
+# Install MS Build Tools
+
+RUN Invoke-WebRequest -Uri https://aka.ms/vs/17/release/vs_buildtools.exe -OutFile vs_buildtools.exe
+
+## Install Build Tools with the Microsoft.VisualStudio.Workload.AzureBuildTools workload, excluding workloads and components with known issues.
+
+RUN ./vs_buildtools.exe --quiet --wait --norestart --nocache --add Microsoft.VisualStudio.Workload.AzureBuildTools --remove Microsoft.VisualStudio.Component.Windows10SDK.10240 --remove Microsoft.VisualStudio.Component.Windows10SDK.10586 --remove Microsoft.VisualStudio.Component.Windows10SDK.14393 --remove Microsoft.VisualStudio.Component.Windows81SDK
+
+## Cleanup
+
+RUN Remove-Item vs_buildtools.exe
 
 # #Install Chocolatey
 # RUN Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))
