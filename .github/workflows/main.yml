@@ -1,0 +1,29 @@
+name: Deploy to Azure SQL Databas
+on:
+  push:
+    branches:
+       -  master
+       -  prod
+       -  preprod
+  # pull_request:
+  #   branches: [ master ]      
+# Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+jobs:
+  install-visual-studio:
+    runs-on: self-hosted
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+    
+    - name: Setup MSBuild
+      uses: microsoft/setup-msbuild@v1.0.2
+      
+    - name: Build Database project
+      run: |
+        msbuild AdventureWorks2012.sln /p:Configuration=Release
