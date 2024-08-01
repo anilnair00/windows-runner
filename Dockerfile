@@ -53,13 +53,15 @@ RUN powershell -NoProfile -ExecutionPolicy Bypass -Command \
     [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; \
     iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))"
 
-# Install Visual Studio Build Tools with SSDT workload
-RUN C:\ProgramData\chocolatey\bin\choco install visualstudio2019buildtools -y --package-parameters "--add Microsoft.VisualStudio.Workload.AzureBuildTools --add Microsoft.VisualStudio.Component.SQL.DataTools --quiet --wait --norestart"
+# Install Visual Studio Build Tools
+RUN powershell -NoProfile -ExecutionPolicy Bypass -Command \
+    "Invoke-WebRequest -Uri https://aka.ms/vs/16/release/vs_buildtools.exe -OutFile C:\vs_buildtools.exe; \
+    Start-Process -Wait -FilePath C:\vs_buildtools.exe -ArgumentList '--quiet', '--wait', '--norestart', '--add', 'Microsoft.VisualStudio.Workload.AzureBuildTools', '--add', 'Microsoft.VisualStudio.Component.SQL.DataTools'"
 
 # Download vswhere.exe
 RUN powershell -NoProfile -ExecutionPolicy Bypass -Command \
     "Invoke-WebRequest -Uri https://github.com/microsoft/vswhere/releases/download/2.8.4/vswhere.exe -OutFile C:\vswhere.exe"
-    
+
 # # Cleanup installer
 # RUN powershell -NoProfile -ExecutionPolicy Bypass -Command \
 #     Remove-Item -Force ./vs_buildtools.exe
