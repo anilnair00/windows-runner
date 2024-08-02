@@ -81,7 +81,7 @@ RUN & "$env:TEMP\vs_community.exe" --add Microsoft.VisualStudio.Workload.NetWeb 
 # msbuild
 RUN & 'C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/MSBuild/Current/Bin/MSBuild.exe' /version
 
-
+RUN choco install netfx-4.8-devpack --confirm
 
 
 
