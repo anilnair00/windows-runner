@@ -83,6 +83,6 @@ RUN & 'C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/MSBuild/Cur
 
 RUN choco install netfx-4.8-devpack --confirm
 
-
+RUN choco install azure-cli --confirm
 
 
