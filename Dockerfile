@@ -1,6 +1,6 @@
 FROM mcr.microsoft.com/windows/servercore:ltsc2022
 
-LABEL org.opencontainers.image.authors
+LABEL org.opencontainers.image.authors test file
 LABEL org.opencontainers.image.title Windows Runner Container
 LABEL org.opencontainers.image.description This image is a base image for the GitHub Self-Hosted runner for the Windows platform.
 LABEL org.opencontainers.image.source https://github.com/anilnair00/windows-runner
