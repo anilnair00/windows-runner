@@ -38,21 +38,21 @@ CMD [ "pwsh", ".\\entrypoint.ps1"]
 # ENV RUNNER_LABELS=windows
 
 
-# Set environment variables to avoid prompts during installation
-# ENV ChocolateyUseWindowsCompression=false
+#Set environment variables to avoid prompts during installation
+ENV ChocolateyUseWindowsCompression=false
 
-# Install Chocolatey
-# RUN powershell -NoProfile -ExecutionPolicy Bypass -Command \
-#     "Set-ExecutionPolicy Bypass -Scope Process -Force; \
-#     [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; \
-#     iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))"
+#Install Chocolatey
+RUN powershell -NoProfile -ExecutionPolicy Bypass -Command \
+    "Set-ExecutionPolicy Bypass -Scope Process -Force; \
+    [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; \
+    iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))"
 
 # # Install Visual Studio Build Tools
 # RUN powershell -NoProfile -ExecutionPolicy Bypass -Command \
 #     "Invoke-WebRequest -Uri https://aka.ms/vs/16/release/vs_buildtools.exe -OutFile C:\vs_buildtools.exe; \
 #     Start-Process -Wait -FilePath C:\vs_buildtools.exe -ArgumentList '--quiet', '--wait', '--norestart', '--add', 'Microsoft.VisualStudio.Workload.AzureBuildTools', '--add', 'Microsoft.VisualStudio.Component.SQL.DataTools'"
 
-# Download vswhere.exe
+# #Download vswhere.exe
 # RUN powershell -NoProfile -ExecutionPolicy Bypass -Command \
 #     "Invoke-WebRequest -Uri https://github.com/microsoft/vswhere/releases/download/2.8.4/vswhere.exe -OutFile C:\vswhere.exe"
 
