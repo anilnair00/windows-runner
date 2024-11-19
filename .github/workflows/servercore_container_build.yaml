@@ -48,12 +48,12 @@ jobs:
 
       - name: Log in to Azure Container Registry
         run: |
-         az acr login --name azurereg001
+         az acr login --name testcr01
         
       - name: Build and Push Docker image
         run: |
-         docker build . -t azurereg001.azurecr.io/testgithub:new
-         docker push azurereg001.azurecr.io/testgithub:new
+         docker build . -t testcr01.azurecr.io/newpackage:new
+         docker push azurereg001.azurecr.io/newpackage:new
         
       # - name: Build and Push Docker image
       #   uses: docker/build-push-action@v2
