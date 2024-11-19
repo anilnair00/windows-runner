@@ -53,7 +53,7 @@ jobs:
       - name: Build and Push Docker image
         run: |
          docker build . -t testcr01.azurecr.io/newpackage:new
-         docker push azurereg001.azurecr.io/newpackage:new
+         docker push testcr01.azurecr.io/newpackage:new
         
       # - name: Build and Push Docker image
       #   uses: docker/build-push-action@v2
