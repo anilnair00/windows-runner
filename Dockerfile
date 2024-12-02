@@ -1,4 +1,4 @@
-FROM plugins/harness_terraform AS custom-root
+FROM plugins/harness_terraform_vm AS custom-root
 
 ## Example of an installation using the in-built "microdnf" package manager
 RUN microdnf install -y wget
