@@ -12,4 +12,4 @@ RUN curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/s
 RUN rpm --import https://packages.microsoft.com/keys/microsoft.asc && \
     rpm -Uvh 'https://packages.microsoft.com/config/rhel/8/packages-microsoft-prod.rpm' && \
     microdnf install -y azure-cli && \
-    microdnf clean all`
+    microdnf clean all
