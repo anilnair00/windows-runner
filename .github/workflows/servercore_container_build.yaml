@@ -1,7 +1,7 @@
 name: Servercore Container Build and Push
 
 on:
-  push:
+  pull_request:
        branches: ['main']
     # tags:
     #   - v1.*
@@ -52,8 +52,8 @@ jobs:
         
       - name: Build and Push Docker image
         run: |
-         docker build . -t testcr01.azurecr.io/newpackage:new
-         docker push testcr01.azurecr.io/newpackage:new
+         docker build . -t mytestreg.azurecr.io/newpackage:new
+         docker push mytestreg.azurecr.io/newpackage:new
         
       # - name: Build and Push Docker image
       #   uses: docker/build-push-action@v2
